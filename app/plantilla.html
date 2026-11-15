@@ -13,7 +13,7 @@
 <style>
 :root{
  --bg:#f7f6f2;--papel:#fff;--tinta:#1e2430;--suave:#5f6876;--linea:#e6e3dc;
- --modelo:#0f8b7d;--modelo-claro:#e3f3f0;--mercado:#e08a1e;--todos:#c0392b;--gano:#2563a8;--gano-claro:#e6eef8;
+ --modelo:#0f8b7d;--modelo-claro:#e3f3f0;--mercado:#e08a1e;--todos:#d55e00;--gano:#2563a8;--gano-claro:#e6eef8;
  --noche:#0f1b24;--noche2:#16303a;--aviso:#9a5b00;--avisobg:#fff4e2;
  --serif:"Fraunces",Georgia,serif;--sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
  --sombra:0 1px 2px rgba(20,30,40,.05),0 8px 24px rgba(20,30,40,.06)}
@@ -73,11 +73,11 @@ code{font-size:.84em;background:#f0eee8;padding:1px 6px;border-radius:5px}
 /* la copa */
 .copa{background:linear-gradient(180deg,#eef5f3,#f7f6f2 60%)}
 .copa .etiqueta i{background:var(--modelo)}
-#g_explorar .vega-embed{display:flex;flex-direction:column;align-items:stretch}
+#g_explorar.vega-embed,#g_explorar .vega-embed{display:flex;flex-direction:column;align-items:stretch}
 .vega-bindings:empty{display:none}
-#g_explorar .vega-embed>.vega-bindings{order:-1;display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin:0 0 16px;padding:12px 14px;background:var(--modelo-claro);border-radius:12px;border:1px solid #cfe6e1}
-#g_explorar .vega-embed>.vega-bindings::before{content:"Filtrar por";align-self:center;font-size:.74rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--modelo);margin-right:2px}
-#g_explorar .vega-embed>svg,#g_explorar .vega-embed>canvas{align-self:center;max-width:100%}
+#g_explorar>.vega-bindings,#g_explorar .vega-embed>.vega-bindings{order:-1;display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin:0 0 16px;padding:12px 14px;background:var(--modelo-claro);border-radius:12px;border:1px solid #cfe6e1}
+#g_explorar>.vega-bindings::before,#g_explorar .vega-embed>.vega-bindings::before{content:"Filtrar por";align-self:center;font-size:.74rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--modelo);margin-right:2px}
+#g_explorar>svg,#g_explorar>canvas,#g_explorar .vega-embed>svg,#g_explorar .vega-embed>canvas{align-self:center;max-width:100%}
 .vega-bindings{display:flex;gap:14px;flex-wrap:wrap;margin:4px 0 14px}
 .vega-bind{display:flex;flex-direction:column;gap:4px;font-size:.78rem;font-weight:600;color:var(--suave);text-transform:uppercase;letter-spacing:.06em}
 .vega-bind-name{font-size:.74rem}
@@ -157,6 +157,12 @@ code{font-size:.84em;background:#f0eee8;padding:1px 6px;border-radius:5px}
 .veredicto .pie{padding:12px 22px 16px;font-size:.85rem;color:#a9b7bf;line-height:1.5}
 .veredicto .real{display:inline-block;background:rgba(255,255,255,.1);color:#fff;border-radius:99px;padding:3px 12px;font-size:.82rem;margin-bottom:6px;font-weight:600}
 .veredicto .pie .ojo{color:#ffcf8a;display:block;margin-top:6px}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:22px 0 8px}
+.defs div{background:var(--papel);border:1px solid var(--linea);border-radius:14px;padding:14px 16px;font-size:.9rem;line-height:1.55;color:#333b48}
+.defs b{display:block;font-size:.95rem;color:var(--tinta);margin-bottom:4px}
+.tabla-visible{background:var(--papel);border:1px solid var(--linea);border-radius:14px;padding:6px 10px;margin:18px 0 8px}
+.tabla-visible table{font-size:.84rem}
+.lista{margin:6px 0 0;padding-left:20px}.lista li{margin:4px 0}
 footer{background:var(--noche);color:#9aa8b0;padding:40px 0 60px;font-size:.88rem;margin-top:60px}
 footer b{color:#fff}
 /* aparición al scrollear (sólo si hay JS y la persona no pidió menos movimiento) */
@@ -174,30 +180,49 @@ footer b{color:#fff}
 <div id="progreso"></div>
 <nav><div class="env">
  <a class="marca" href="#arriba"><i>U</i>¿Gana el underdog?</a>
- <a class="sec" href="#datos"><b>1</b>Los datos</a><a class="sec" href="#hallazgo"><b>2</b>Lo que encontramos</a>
- <a class="sec" href="#modelo"><b>3</b>El modelo</a><a class="sec" href="#explora"><b>4</b>Explorá</a><a class="sec" href="#proba"><b>5</b>Probá el modelo</a>
+ <a class="sec" href="#problema"><b>0</b>El problema</a><a class="sec" href="#datos"><b>1</b>Los datos</a><a class="sec" href="#hallazgo"><b>2</b>Lo que encontramos</a>
+ <a class="sec" href="#predice"><b>3</b>¿Predice?</a><a class="sec" href="#modelo"><b>4</b>¿Sirve para apostar?</a>
+ <a class="sec" href="#explora"><b>5</b>Explorá</a><a class="sec" href="#proba"><b>6</b>Probá el modelo</a>
 </div></nav>
 
 <header id="arriba"><div class="env">
  <div class="kicker">Proyecto integrador · Ciencia de Datos · UTN FRM · 5K10</div>
  <h1>¿Ganará el no favorito el próximo partido?</h1>
- <p class="tesis">Las casas de apuestas ya ponen en la cuota casi todo lo que se sabe de los jugadores, así que nuestro modelo no predice mejor que ellas. Lo que sí hace es elegir en qué partidos conviene apostarle al no favorito: con esa regla pasamos de perder plata a quedar casi en cero, aunque esa mejora todavía podría ser casualidad.</p>
+ <p class="tesis">En el fútbol, el equipo al que las casas de apuestas le dan menos chances (el <em>underdog</em>) gana 2 de cada 10 partidos.
+ Nos preguntamos si se le puede sacar plata, en dos pasos: primero, si un modelo predice esos partidos mejor que las casas de apuestas (no: predice igual);
+ después, si una fórmula de apuesta montada sobre el modelo deja de perder lo que se queda la casa (sí, en los dos períodos que medimos, aunque la ganancia todavía podría ser suerte).</p>
  <div class="cifras">
-  <div class="cifra"><b>{{TASA}}</b><span>de los {{N}} partidos de 9 ligas europeas (2008–2016) los ganó el equipo no favorito: es la excepción, no la regla</span></div>
-  <div class="cifra"><b>{{AUC_TEST_2}} = {{AUC_MERCADO_2}}</b><span>puntaje con que el modelo y la cuota ordenan los partidos según las chances del underdog (0,5 = azar, 1 = perfecto): empatan</span></div>
-  <div class="cifra"><b>{{ROI_TODOS}} <span class="flecha">→</span> {{ROI_MODELO}}</b><span>retorno por peso apostado: se pierde apostándole a todos los underdogs; se queda casi en cero apostando sólo donde el modelo ve valor (diferencia todavía no confiable)</span></div>
+  <div class="cifra"><b>{{TASA}}</b><span>de los {{N}} partidos de 9 ligas europeas (2008–2016) los ganó el underdog: es la excepción, no la regla</span></div>
+  <div class="cifra"><b>{{AUC_TEST_2}} = {{AUC_MERCADO_2}}</b><span>el modelo predice igual que las casas de apuestas: qué tan bien ordena cada uno los partidos según las chances del underdog (0,5 = azar, 1 = perfecto)</span></div>
+  <div class="cifra"><b>{{R_FORMULA_VAL}} <span class="flecha">·</span> {{R_FORMULA_TEST}}</b><span>retorno por cada $100 apostados con la fórmula, en validación y en el test: la única estrategia que no pierde en ninguno de los dos, aunque todavía podría ser suerte</span></div>
  </div>
- <a class="bajar" href="#datos">Empezar por los datos ↓</a>
+ <a class="bajar" href="#problema">Empezar por el problema ↓</a>
 </div></header>
+
+<!-- TALLO 0 · EL PROBLEMA -->
+<section id="problema"><div class="env">
+ <div class="etiqueta"><i>0</i>El problema</div>
+ <h2>En cada partido de fútbol hay un favorito y un underdog, y la casa de apuestas les pone precio a los dos</h2>
+ <div class="texto"><p class="lead">Antes de cada partido, las casas de apuestas publican tres <b>cuotas</b>: cuánto pagan por cada peso si gana el local, si empatan o si gana el visitante.
+ Por ejemplo, {{P_LOCAL}} contra {{P_VISIT}} (temporada 2015/16): cuotas {{P_CUOTAS}}. Si apostabas $100 a que ganaba {{P_UND}} y ganaba, cobrabas ${{P_COBRO}}
+ (${{P_GANANCIA}} de ganancia); si no, perdías los $100. Una cuota alta quiere decir que la casa cree que es difícil que pase: dividiendo 1 por la cuota sale la chance que le asigna.</p></div>
+ <div class="grafico"><div id="g_problema"></div></div>
+ <p class="como-leer">Arriba, 1 ÷ cuota para cada resultado: suman {{P_SUMA}}, más que 100%. Ese {{P_MARGEN}} de más es el margen que se queda la casa, y es la razón por la que apostar a ciegas pierde plata. Abajo, las mismas chances sin el margen: el favorito tiene {{P_PROB_FAV}} y el underdog {{P_PROB_UND}}.</p>
+ <div class="defs">
+  <div><b>Favorito y underdog</b>El favorito es el equipo con más chances según la cuota (sin el margen); el underdog, el otro. El empate no es un equipo. Dejamos afuera los partidos parejos (menos de 5 puntos de diferencia), porque ahí las casas no se ponen de acuerdo en quién es el favorito.</div>
+  <div><b>Qué es un dato</b>Un partido: {{N}} partidos de 9 ligas europeas, de 2008 a 2016, con sus cuotas y los ratings FIFA de los once titulares de cada equipo. Lo que queremos predecir es si ganó el underdog (sí o no).</div>
+  <div><b>La pregunta</b>¿Se le puede sacar plata a apostarle al underdog? La respondemos en dos pasos: ¿un modelo predice mejor que la casa? (sección 3) y ¿una fórmula de apuesta sobre ese modelo deja de perder el margen? (sección 4).</div>
+ </div>
+</div></section>
 
 <!-- TALLO 1 · LOS DATOS -->
 <section id="datos"><div class="env">
  <div class="etiqueta"><i>1</i>Los datos</div>
  <h2>Cuanto más claro es el favorito, menos gana el underdog: del {{DATOS_ALTO}} de los partidos parejos al {{DATOS_BAJO}} cuando el favorito es abrumador</h2>
- <div class="texto"><p class="lead">Cada partido tiene un favorito y un underdog según las cuotas de las casas de apuestas. La cuota se traduce en una probabilidad,
- y esa probabilidad acierta: los underdogs ganan mucho más seguido cuando el partido es parejo que cuando enfrentan a un gigante.</p></div>
+ <div class="texto"><p class="lead">De los {{N}} partidos, el underdog ganó el {{TASA}}: 2 de cada 10. Pero depende mucho de qué tan favorito es el otro.
+ Agrupando los partidos según la chance que la cuota le daba al favorito, se ve que esa chance acierta: el underdog gana mucho más seguido cuando el partido es parejo que cuando enfrenta a un gigante.</p></div>
  <div class="grafico"><div id="g_datos"></div></div>
- <p class="como-leer">Cada barra agrupa los partidos según la probabilidad que la cuota le daba al favorito; su altura es la proporción que terminó ganando el underdog.</p>
+ <p class="como-leer">Cada barra agrupa los partidos según la chance que la cuota le daba al favorito (al pie, cuántos partidos hay en cada grupo); su altura es cuántos de cada 100 ganó el underdog. La línea punteada es el promedio de todos.</p>
  <details><summary>Cómo lo sabemos <small>pipeline, filtros, fuga</small></summary><div>
   <h3>De dónde salen los datos</h3>
   <p>De la <a href="https://www.kaggle.com/datasets/hugomathien/soccer">European Soccer Database</a> (Kaggle): partidos con
@@ -225,7 +250,7 @@ footer b{color:#fff}
  más gana. Pero la línea naranja (lo que la cuota esperaba en esos mismos partidos) va pegada a la azul: las casas de apuestas ya
  ponían en el precio la calidad de los titulares.</p></div>
  <div class="grafico"><div id="g_hallazgo"></div></div>
- <p class="como-leer">Cinco grupos de partidos de igual tamaño según la diferencia de rating (positivo = el underdog tiene mejor once). Azul: lo que pasó; naranja punteada: lo que decía la cuota.</p>
+ <p class="como-leer">Cinco grupos de partidos de igual tamaño según la diferencia de rating (positivo = el underdog tiene mejor once). Azul continua: lo que pasó; naranja punteada: lo que decía la cuota (como en la leyenda).</p>
  <details><summary>Cómo lo sabemos <small>hipótesis, construcción del gráfico</small></summary><div>
   <h3>Una hipótesis que se sostuvo</h3>
   <p><b>H1 · donde dos casas eligen distinto favorito, el partido es parejo.</b> La diferencia de probabilidad entre local y
@@ -241,20 +266,26 @@ footer b{color:#fff}
  </div></details>
 </div></section>
 
-<!-- TALLO 3 · EL MODELO -->
-<section id="modelo"><div class="env">
- <div class="etiqueta"><i>3</i>El modelo</div>
- <h2>El modelo ordena igual que las cuotas, pero es el único que encuentra apuestas sin perder el margen de la casa (sin descartar el cero): de {{ROI_TODOS}} a {{ROI_MODELO}}</h2>
- <div class="texto"><p class="lead">Si sólo se mira qué tan bien ordena los partidos, ningún modelo le gana a la cuota. La pregunta que sí cambia algo es otra: ¿sirve para
- decidir? La regla es apostar $100 al underdog sólo cuando el modelo cree que la cuota paga más de lo que el riesgo vale. Apostarle a
- ciegas a todos los underdogs pierde el margen de la casa, partido tras partido. El modelo apuesta en uno de cada diez partidos y queda cerca de empatar.</p></div>
- <div class="grafico"><div id="g_modelo"></div></div>
- <p class="como-leer">Ganancia acumulada de cada estrategia. Cada partido lo predice un modelo que nunca lo vio: hasta 2015, uno entrenado sólo con los partidos anteriores (validación temporal); desde la línea punteada, el modelo final sobre el test.</p>
- <details><summary>Cómo lo sabemos <small>métricas, piso, validación, comparación, test, errores</small></summary><div>
+<!-- TALLO 3 · ¿EL MODELO PREDICE? (sin plata) -->
+<section id="predice"><div class="env">
+ <div class="etiqueta"><i>3</i>¿El modelo predice?</div>
+ <h2>El modelo predice tan bien como las casas de apuestas, pero no mejor: en partidos que nunca vio, ordena con AUC {{AUC_TEST_2}}, igual que la cuota ({{AUC_MERCADO_2}})</h2>
+ <div class="texto"><p class="lead">Primero, sin hablar de plata: ¿cuánto se equivoca? Entrenamos una regresión logística con la cuota y diez diferencias de rating
+ entre los once titulares, y la probamos en la temporada 2015/16, que el modelo nunca vio ({{N_TEST}} partidos). Para cada partido da una chance de que gane el underdog.
+ Si el modelo funciona, cuando dice 30% el underdog tiene que ganar 3 de cada 10 de esos partidos.</p></div>
+ <div class="grafico"><div id="g_calibracion"></div></div>
+ <p class="como-leer">Los partidos del test, en diez grupos según la chance que se dijo. Cuanto más cerca de la diagonal, mejor calibrada la predicción. El modelo (verde continua) y la cuota (naranja punteada) van casi pegados: dicen lo mismo y se equivocan lo mismo.</p>
+ <div class="texto"><p>Otra forma de verlo es la <b>matriz de confusión</b>: cuántas veces acierta si tiene que decir sí o no. Tomamos como umbral {{UMBRAL_MATRIZ}},
+ lo que gana el underdog en promedio: si el modelo le da eso o más, «avisa» que puede ganar. De los partidos que ganó el underdog, avisó en el {{M_RECALL}};
+ pero de todos sus avisos, sólo el {{M_PRECISION}} terminó en victoria. Con un umbral de 50% casi nunca avisaría, porque el underdog rara vez es más probable que no ganar.</p></div>
+ <div class="grafico"><div id="g_matriz"></div></div>
+ <p class="como-leer">Filas: lo que pasó. Columnas: lo que dijo el modelo con el umbral de {{UMBRAL_MATRIZ}}. En verde, los aciertos; en naranja claro, los errores.</p>
+ <div class="tabla-visible">{{T_PREDICCION}}</div>
+ <p class="como-leer">El modelo, la cuota sola y un piso que dice siempre {{UMBRAL_MATRIZ}}, en el test. El modelo y la cuota empatan en las tres métricas, y los dos le ganan al piso.</p>
+ <details><summary>Cómo lo sabemos <small>métricas, validación, comparación de modelos, curva ROC, errores</small></summary><div>
   <h3>Las métricas, y por qué</h3>
-  <p><b>ROC-AUC</b> para saber si el modelo ordena los partidos (0,5 = adivinar). <b>Log-loss</b> para saber si las probabilidades son
-  creíbles. <b>Retorno (ROI)</b> para saber si sirve para decidir: apostar $100 cuando <code>probabilidad del modelo × cuota − 1 &gt; 0</code>,
-  con las cuotas reales (que traen el margen de la casa). La accuracy no sirve: decir siempre «no gana» acierta el 80%.</p>
+  <p><b>ROC-AUC</b> para saber si el modelo ordena los partidos (0,5 = adivinar). <b>Log-loss</b> y <b>Brier</b> para saber si las probabilidades son
+  creíbles (menos es mejor). La accuracy no sirve: decir siempre «no gana» acierta el 80%.</p>
   <h3>El piso y la validación</h3>
   <p>El piso es un modelo que no mira nada (AUC 0,5). La validación imita el uso: <code>TimeSeriesSplit</code> en cinco pedazos sobre
   2008/09–2014/15, siempre entrenando con el pasado y validando con lo que viene; el test es la temporada 2015/16, mirada una sola vez.</p>
@@ -264,50 +295,87 @@ footer b{color:#fff}
   punto, mejoran en lo que vieron y empeoran en lo que no.</p>
   <h3>Qué aporta cada grupo de columnas (AUC)</h3>
   {{T_GRUPOS}}
-  <h3>La plata, en validación</h3>
-  {{T_PLATA}}
-  <p>Por pedazo (ROI %), para ver que el resultado es ruidoso:</p>
-  {{T_PEDAZOS}}
-  <p><b>El intervalo de confianza del modelo incluye el cero</b>: no demuestra ganancia. Lo que sí muestra es que deja de perder el margen
-  de la casa, mientras que el bosque y el boosting pierden casi lo mismo que apostar a ciegas.</p>
   <h3>El modelo elegido y su ajuste</h3>
   <p>Regresión logística con las 12 columnas (las 2 probabilidades del mercado en escala logit y 10 diferencias de rating del XI),
   C = {{C}} (elegido por grilla; desde C = 0,1 la AUC ya no cambia). Es una fórmula, así que esta página la calcula en tu navegador.</p>
   <h3>Resultado en el test (temporada 2015/16, mirada una vez)</h3>
   {{T_TEST}}
+  <h3>La curva ROC en el test</h3>
+  <p>Al bajar el umbral, el modelo avisa en más partidos: acierta más victorias, pero también da más falsas alarmas. El AUC es el área bajo cada curva.</p>
+  <div class="grafico" style="max-width:420px"><div id="g_roc"></div></div>
   <h3>Dónde se equivoca</h3>
   <p>Adentro de un grupo de partidos con cuotas parecidas, el modelo casi no distingue cuál será la sorpresa: su información es sobre todo
   la cuota. Las sorpresas más grandes (Bayern 1–2 Mainz, Barcelona 1–2 Valencia) tenían 4–7% para el modelo y para el mercado:
-  con 1 en 20, uno de cada 20 de esos partidos lo gana el chico. Y las apuestas con más valor del test perdieron todas: valor esperado
-  positivo no es ganar, es cobrar más de lo que el riesgo vale en el largo plazo.</p>
+  con 1 en 20, uno de cada 20 de esos partidos lo gana el chico.</p>
   <h3>En qué se apoya</h3>
   {{T_COEF}}
   <p>Casi todo el peso está en la probabilidad del mercado (coeficiente {{COEF_PROB}} sobre su logit, intercepto {{INTERCEPTO}}). Que sea
   un poco menor que 1 significa que el modelo achica las probabilidades extremas: a los underdogs muy improbables les da algo más que el
-  mercado, y de ahí salen la mayoría de las apuestas. Los coeficientes de los gaps se leen juntos: varios correlacionan entre 0,86 y 0,96
-  y se reparten el peso, por eso alguno tiene signo raro.</p>
+  mercado. Los coeficientes de los gaps se leen juntos: varios correlacionan entre 0,86 y 0,96 y se reparten el peso, por eso alguno tiene signo raro.</p>
+ </div></details>
+</div></section>
+
+<!-- TALLO 4 · ¿SIRVE PARA APOSTAR? (la fórmula) -->
+<section id="modelo"><div class="env">
+ <div class="etiqueta"><i>4</i>¿Sirve para apostar?</div>
+ <h2>La fórmula de apuesta es lo que hace útil al modelo: sin ella pierde casi como apostar a ciegas ({{R_SIN_VAL}}); con ella es la única estrategia que no pierde en ningún período ({{R_FORMULA_VAL}} y {{R_FORMULA_TEST}})</h2>
+ <div class="texto"><p class="lead">El modelo da chances, no decisiones. La decisión la agregamos nosotros, en un segundo paso: apostar $100 al underdog sólo si
+ <b>chance según el modelo × cuota − 1 &gt; 0</b>, es decir, sólo si el modelo cree que el underdog tiene más chances de las que paga la cuota.
+ La fórmula no la aprendió el modelo: es una regla que nos pusimos para calibrar cuándo vale la pena apostar.</p></div>
+ <div class="grafico"><div id="g_formula"></div></div>
+ <p class="como-leer">Cada punto es un partido del test. Horizontal: la chance con la que paga la cuota (1 ÷ cuota). Vertical: lo que cree el modelo. Arriba de la diagonal, el modelo cree más de lo que se paga y apuesta ({{N_APUESTAS_TEST}} de {{N_TEST}} partidos).</p>
+ <div class="texto"><p>¿Le gana a estrategias más simples? Comparamos con cuatro competidores. Las reglas de cada uno se eligieron mirando sólo la validación (2010–2015),
+ igual que el modelo, y recién después se miró el test:</p>
+ <ul class="lista">
+  <li><b>Modelo sin la fórmula:</b> apuesta cuando el modelo le da más de {{UMBRAL_SIN}} al underdog, sin compararlo con la cuota.</li>
+  <li><b>Apostar a todos:</b> $100 a cada underdog.</li>
+  <li><b>Dummy por rango de cuota:</b> apuesta sólo a los underdogs a los que la cuota les da entre {{RANGO_LO}} y {{RANGO_HI}} (el mejor rango en validación).</li>
+  <li><b>Dummy por once mejor:</b> apuesta cuando el once titular del underdog tiene mejor rating que el del favorito.</li>
+ </ul></div>
+ <div class="grafico"><div id="g_modelo"></div></div>
+ <p class="como-leer">Sólo la temporada de test (2015/16). Cada línea es lo ganado hasta esa fecha por cada $100 apostados (se compara por cada $100 porque las estrategias apuestan cantidades de veces muy distintas), y aparece cuando su estrategia ya hizo 20 apuestas: antes es puro ruido. La franja gris es lo que da apostar al azar tantas veces como el modelo (el 90% de 500 sorteos).</p>
+ <div class="tabla-visible">{{T_ESTRATEGIAS}}</div>
+ <div class="cambio"><b>Cómo leerlo, sin vender humo.</b> En la validación (5 temporadas, {{N_VAL}} partidos) la fórmula marca la diferencia: el modelo con la fórmula da {{R_FORMULA_VAL}}
+ y el mismo modelo sin ella {{R_SIN_VAL}}; apostar al azar da más que el modelo en apenas el {{AZAR_VAL_SUPERA}} de los sorteos. El mejor dummy de validación (rango de cuota, {{R_RANGO_VAL}})
+ se cae en el test ({{R_RANGO_TEST}}). En el test, en cambio, casi todo sale bien: fue una temporada en la que el underdog ganó más que de costumbre ({{TASA_TEST}} contra {{TASA_VAL}}),
+ y el azar le gana al modelo en el {{AZAR_TEST_SUPERA}} de los sorteos. Por eso el {{R_FORMULA_TEST}} del test no prueba ganancia: lo que se sostiene es que, con la fórmula,
+ el modelo es la única estrategia que no pierde en ninguno de los dos períodos.</div>
+ <details><summary>Cómo lo sabemos <small>la plata en validación, por pedazo, cómo se eligieron los competidores</small></summary><div>
+  <h3>La fórmula, paso a paso</h3>
+  <p>Si la cuota del underdog es 10, la casa paga como si tuviera 1 ÷ 10 = 10% de chances. Si el modelo cree que tiene 15%, el valor esperado de apostar $1 es
+  0,15 × 10 − 1 = +0,5: a la larga, se cobrarían $1,50 por cada peso. Valor esperado positivo no es ganar ese partido: las apuestas con más valor del test perdieron todas.</p>
+  <h3>La plata en validación (por modelo)</h3>
+  {{T_PLATA}}
+  <p>Por pedazo (ROI %), para ver que el resultado es ruidoso:</p>
+  {{T_PEDAZOS}}
+  <p><b>El intervalo de confianza del modelo incluye el cero</b>: no demuestra ganancia. Lo que sí muestra es que deja de perder el margen
+  de la casa, mientras que el bosque y el boosting pierden casi lo mismo que apostar a ciegas.</p>
+  <h3>Cómo se eligieron los competidores</h3>
+  <p>El umbral del modelo sin la fórmula se eligió entre 15%, 20%, 25%, 30% y 35% (el de mejor retorno en validación). El rango del dummy de cuota, entre todos los
+  rangos de 5 en 5 puntos con al menos 1.000 apuestas en validación. El intervalo de confianza del test sale de remuestrear las apuestas 2.000 veces; el azar, de 500 sorteos
+  con tantas apuestas como hizo el modelo.</p>
  </div></details>
 </div></section>
 
 <!-- COPA 1 · EXPLORÁ -->
 <section id="explora" class="copa"><div class="env">
- <div class="etiqueta"><i>4</i>Explorá</div>
- <h2>Los {{N_EXPLORAR}} partidos que el modelo predijo sin haberlos visto, y qué habría hecho en cada uno</h2>
+ <div class="etiqueta"><i>5</i>Explorá</div>
+ <h2>Los {{N_EXPLORAR}} partidos de la temporada de test, y qué habría hecho cada estrategia</h2>
  <div class="texto"><p class="lead">Cada punto es un partido. Los grises son los que el modelo dejó pasar; los de color, sus apuestas: azul si el underdog ganó,
- gris oscuro si perdió. Elegí una liga o una temporada, o <b>arrastrá un rectángulo</b> sobre una zona: las barras de abajo recalculan
- cuánto habría ganado cada estrategia. <b>Hacé clic en un partido</b> para ver su ficha.</p></div>
+ gris oscuro si perdió. Elegí una liga o <b>arrastrá un rectángulo</b> sobre una zona: las barras de abajo recalculan
+ cuánto habría ganado cada estrategia de la sección 4 en esos partidos. <b>Hacé clic en un partido</b> para ver su ficha.</p></div>
  <div class="grafico"><div id="g_explorar"></div></div>
  <div class="tarjeta" id="ficha"></div>
- <p class="como-leer">De 2010 a 2015, cada partido lo predice un modelo entrenado únicamente con los anteriores; los de 2015/16, el modelo final, que nunca los vio. Doble clic borra el rectángulo.</p>
+ <p class="como-leer">Sólo la temporada 2015/16, que el modelo final nunca vio. Doble clic borra el rectángulo.</p>
  <div class="cambio"><b>Una decisión de diseño que cambiamos.</b> La primera versión de este panel mostraba los 17.959 partidos con lo que
  decía el modelo final, y las barras daban que el modelo ganaba +4,6%. Ese número era optimista: el modelo final había entrenado con
- la mayoría de esos partidos. Ahora sólo están los partidos que cada modelo predijo sin haberlos visto, y el número honesto es mucho más chico.
+ la mayoría de esos partidos. Ahora sólo están los partidos del test, que el modelo nunca vio, y la comparación es contra las mismas estrategias de la sección 4.
  También sacamos del eje vertical la probabilidad del modelo (que casi copiaba a la de la cuota y dejaba todo sobre una diagonal) y pusimos el valor esperado, que es lo que decide.</div>
 </div></section>
 
 <!-- COPA 2 · PROBÁ EL MODELO -->
 <section id="proba" class="copa"><div class="env">
- <div class="etiqueta"><i>5</i>Probá el modelo</div>
+ <div class="etiqueta"><i>6</i>Probá el modelo</div>
  <h2>Cargá un partido: el modelo te dice qué chance tiene el underdog y si vale la pena apostarle</h2>
  <div class="texto"><p class="lead">Tres formas: buscá cualquier partido de la temporada 2015/16 (la que el modelo nunca vio) por liga y equipo,
  tocá uno de los ejemplos, o inventá un partido escribiendo los equipos, las cuotas y moviendo los deslizadores.</p></div>
@@ -374,8 +442,23 @@ function ajustarAncho(id, spec) {
   spec.vconcat.forEach(c => c.width = ancho);
   return spec;
 }
+// en pantallas angostas se sacan los rótulos decorativos (capas con name "escritorio") y la ganancia acumulada usa leyenda
+function adaptarAlCelular(id, spec) {
+  const caja = document.getElementById(id).parentElement;
+  if (caja.clientWidth >= 560) return spec;
+  const limpiar = s => { if (s.layer) { s.layer = s.layer.filter(l => !(l.name || "").startsWith("escritorio")); s.layer.forEach(limpiar); } return s; };
+  limpiar(spec);
+  if (id === "g_problema") spec.layer.forEach(l => { if (l.encoding && l.encoding.color && l.encoding.color.legend) l.encoding.color.legend.columns = 2; });
+  if (id === "g_modelo") {
+    spec.layer.forEach(l => { if (l.encoding && l.encoding.x && l.encoding.x.scale) delete l.encoding.x.scale.domain; });
+    const lineas = spec.layer.find(l => l.name === "lineas");
+    const leyenda = {orient: "bottom", columns: 1, title: null, symbolType: "stroke", symbolStrokeWidth: 3, labelFontSize: 12, labelLimit: 300};
+    if (lineas) { lineas.encoding.color.legend = leyenda; lineas.encoding.strokeDash.legend = leyenda; }
+  }
+  return spec;
+}
 Promise.all(Object.entries(GRAFICOS).map(([id, spec]) =>
-  vegaEmbed("#" + id, ajustarAncho(id, JSON.parse(spec)), opciones).then(r => { vistas[id] = r.view; })
+  vegaEmbed("#" + id, adaptarAlCelular(id, ajustarAncho(id, JSON.parse(spec))), opciones).then(r => { vistas[id] = r.view; })
 )).then(() => {
   vistas.g_explorar.addEventListener("click", (_, item) => { if (item && item.datum && item.datum.partido) ficha(item.datum); });
   cargarCaso(0);
